@@ -9,21 +9,14 @@ public class Dados {
 	private LocalDate dataNascimento;
 	private String email;
 	private String contato;
-	private String metodoPagamento;
-	private LocalDate dataPagamento;
 	
-	public Dados(String nomeAluno, String cpf, LocalDate dataNascimento, String email, String contato, String metodoPagamento, LocalDate dataPagamento) {
+	public Dados(String nomeAluno, String cpf, LocalDate dataNascimento, String email, String contato) {
 		this.nomeAluno = nomeAluno;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.contato = contato;
-		this.metodoPagamento = metodoPagamento;
-		this.dataPagamento = dataPagamento;
 	
-	}
-
-	public Dados(String string, String string5, String string2, String string6, String string3, String string4) {
 	}
 
 	public String getNomeAluno() {
@@ -65,22 +58,6 @@ public class Dados {
 	public void setContato(String contato) {
 		this.contato = contato;
 	}
-
-	public String getMetodoPagamento() {
-		return metodoPagamento;
-	}
-
-	public void setMetodoPagamento(String metodoPagamento) {
-		this.metodoPagamento = metodoPagamento;
-	}
-
-	public LocalDate getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(LocalDate dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
 	
 	public void visualizarCadastro() {
 		System.out.println("\n\n***********************************************************");
@@ -91,8 +68,6 @@ public class Dados {
 		System.out.println("Data de Nascimento: " + this.dataNascimento);
 		System.out.println("E-mail: " + this.email);
 		System.out.println("Contato: " + this.contato);
-		System.out.println("Método de Pagamento: " + this.metodoPagamento);
-		System.out.println("Data de Pagamento: " + this.dataPagamento);
 		
 	}
 }

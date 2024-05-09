@@ -1,79 +1,117 @@
 package eCommerce;
 
-import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import eCommerce.controller.eCommerceController;
 import eCommerce.model.Dados;
 
 public class Opcoes {
+	
+    public static Scanner leia = new Scanner(System.in);
+	public static eCommerceController armazenar = new eCommerceController();
+
 
     public static void main(String[] args) {
-        
-        Scanner leia = new Scanner(System.in);
+    	
         int opcao;
         
-  
-        Dados aluno1 = new Dados("Luana Izaias do Nascimento", "45810776809", LocalDate.of(1998, 3, 9), "luananascimento00@outlook.com", "11981414217", "crédito", LocalDate.of(2024, 5, 1)); //*melhorar essa data de pagamento
-        aluno1.visualizarCadastro();
-        
         while (true) {
-            System.out.println("\n          BEM VINDOS A REDE MAIS SAÚDE!"            );
+            System.out.println("\n   REDE MAIS SAÚDE - TREINOS E AULAS FUNCIONAIS."   );
             System.out.println("                                                     ");
-            System.out.println("                  AULAS DISPONÍVEIS                  ");
+            System.out.println("                  OPÇÕES DISPONÍVEIS                 ");
             System.out.println("                                                     ");
             System.out.println("*****************************************************");
             System.out.println("                                                     ");
-            System.out.println("            1 - Musculação 120,00                    ");
-            System.out.println("            2 - Bike 40,00/aula                      ");
-            System.out.println("            3 - Cross Trainning  110,00              ");
-            System.out.println("            4 - Pilates  80,00                       ");
-            System.out.println("            5 - Jiu-Jitsu  95,00                     ");
-            System.out.println("            6 - Boxe  95,00                          ");
-            System.out.println("            7 - Natação  240,00                      ");
-            System.out.println("            8 - Sair                                 ");
+            System.out.println("            1 - Cadastrar Aluno                      ");
+            System.out.println("            2 - Listar Todos os Alunos               ");
+            System.out.println("            3 - Atualizar Cadastro do Aluno          ");
+            System.out.println("            4 - Deletar Cadastro do Aluno            ");
+            System.out.println("            5 - Sair                                 ");
             System.out.println("                                                     "); 
             System.out.println("*****************************************************");
             System.out.println("Entre com a opção desejada:                          ");
             System.out.println("                                                     ");
             
-            opcao = leia.nextInt(); 
-            
-            if (opcao == 8) {
-                System.out.println("\nRede Mais Saúde - O seu Futuro começa aqui!");
+            try {
+                opcao = leia.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\nDigite valores inteiros!");
+                leia.nextLine();
+                opcao = 0;
+            }
+            if (opcao == 5) {
+                System.out.println("\nRede Mais Saúde.");
                 sobre();
                 leia.close(); 
                 System.exit(0);
             }
             
-            switch (opcao) {
+                switch (opcao) {
                 case 1:
-                    System.out.println("Musculação\n\n");
+                    cadastrarCliente();
                     break;
                 case 2:
-                    System.out.println("Bike\n\n");
+                    armazenar.listarTodos();
                     break;
                 case 3:
-                    System.out.println("Cross Trainning\n\n");
+                    atualizarCadastro();
                     break;
                 case 4:
-                    System.out.println("Pilates\n\n");
-                    break;
-                case 5:
-                    System.out.println("Jiu-Jitsu\n\n");
-                    break;
-                case 6:
-                    System.out.println("Boxe\n\n");
-                    break;
-                case 7:
-                    System.out.println("Natação\n\n");
-                    break;
-                case 8:
-                    System.out.println("Sair\n\n");
+                    deletarCliente();
                     break;
                 default:
                     System.out.println("\nOpção Inválida!\n");
                     break;
             }
         }
+    }
+
+    public static void cadastrarCliente() {
+        leia.nextLine(); 
+        System.out.println("Digite o nome do aluno: ");
+        String nomeAluno = leia.nextLine();
+        System.out.println("Digite o CPF do aluno: ");
+        String cpf = leia.nextLine();
+        System.out.println("Digite a data de nascimento do aluno (no formato AAAA-MM-DD): ");
+        String dataNascimentoStr = leia.nextLine();
+        LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr);
+        System.out.println("Digite o e-mail do aluno: ");
+        String email = leia.nextLine();
+        System.out.println("Digite o telefone de contato do aluno: ");
+        String contato = leia.nextLine();
+
+        Dados dados = new Dados(nomeAluno, cpf, dataNascimento, email, contato);
+        armazenar.cadastrar(dados);
+    }
+
+    public static void atualizarCadastro() {
+        leia.nextLine();
+        System.out.println("Digite o nome do aluno que deseja atualizar:");
+        String nomeAluno = leia.nextLine();
+        
+        System.out.println("Digite o novo telefone de contato: ");
+        String novoTelefone = leia.nextLine();
+        System.out.println("Digite o novo e-mail: ");
+        String novoEmail = leia.nextLine();
+       
+        Dados aluno = armazenar.buscarNaCollection(nomeAluno);
+        
+        if (aluno != null) {
+            aluno.setContato(novoTelefone);
+            aluno.setEmail(novoEmail);
+            armazenar.atualizar(aluno);
+        } else {
+            System.out.println("O cadastro do aluno(a) " + nomeAluno + " não foi encontrado!");
+        }
+    }
+    
+
+    public static void deletarCliente() {
+        leia.nextLine();
+        System.out.println("Digite o nome do cliente que deseja deletar:");
+        String nome = leia.nextLine();
+        armazenar.deletar(nome);
     }
 
     public static void sobre() {
@@ -84,4 +122,3 @@ public class Opcoes {
         System.out.println("*********************************************************");
     }
 }
-
